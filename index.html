@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cande Gracias <3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0b1522;
+            background: linear-gradient(135deg, #0b1522 0%, #1a1f3c 100%);
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Efecto de brillo estelar en el fondo */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .heart-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .heart {
+            height: 70px;
+            width: 70px;
+            background: #f20044;
+            position: relative;
+            transform: rotate(-45deg);
+            box-shadow: -10px 10px 90px #f20044;
+            animation: heart 0.6s linear infinite;
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        @keyframes heart {
+            0% {
+                transform: rotate(-45deg) scale(1.07);
+            }
+            80% {
+                transform: rotate(-45deg) scale(1.0);
+            }
+            100% {
+                transform: rotate(-45deg) scale(0.8);
+            }
+        }
+        
+        .heart:before {
+            content: '';
+            position: absolute;
+            height: 70px;
+            width: 70px;
+            background: #f20044;
+            top: -50%;
+            border-radius: 50px;
+            box-shadow: -10px -10px 90px #f20044;
+        }
+        
+        .heart:after {
+            content: '';
+            position: absolute;
+            height: 70px;
+            width: 70px;
+            background: #f20044;
+            right: -50%;
+            border-radius: 50px;
+            box-shadow: 10px 10px 90px #f20044;
+        }
+        
+        h1 {
+            color: aliceblue;
+            text-align: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            font-style: oblique;
+            line-height: 1.3;
+            text-shadow: 0 0 15px rgba(242, 0, 68, 0.7);
+            margin-top: 20px;
+            padding: 0 10px;
+            max-width: 90%;
+            z-index: 1;
+        }
+        
+        .message {
+            color: rgba(240, 248, 255, 0.9);
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 30px;
+            line-height: 1.6;
+            max-width: 90%;
+            font-weight: 300;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+            z-index: 1;
+        }
+        
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .music-btn {
+            background: rgba(242, 0, 68, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(242, 0, 68, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn:hover {
+            background: rgba(242, 0, 68, 1);
+            transform: scale(1.1);
+        }
+        
+        .music-btn.muted {
+            background: rgba(100, 100, 100, 0.8);
+        }
+        
+        .volume-slider {
+            width: 120px;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f20044;
+            cursor: pointer;
+        }
+        
+        .volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f20044;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .music-note {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: rgba(240, 248, 255, 0.7);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 10px;
+            z-index: 100;
+        }
+        
+        /* Responsive adjustments for mobile devices */
+        @media screen and (max-width: 768px) {
+            .heart {
+                height: 60px;
+                width: 60px;
+            }
+            
+            .heart:before,
+            .heart:after {
+                height: 60px;
+                width: 60px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-top: 10px;
+            }
+            
+            .message {
+                font-size: 1.1rem;
+                margin-top: 20px;
+            }
+            
+            .music-controls {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .music-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            
+            .volume-slider {
+                width: 100px;
+            }
+            
+            .music-note {
+                font-size: 0.8rem;
+                left: 15px;
+                bottom: 15px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .heart {
+                height: 50px;
+                width: 50px;
+            }
+            
+            .heart:before,
+            .heart:after {
+                height: 50px;
+                width: 50px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            body {
+                padding: 15px;
+            }
+            
+            .music-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .music-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            
+            .volume-slider {
+                width: 90px;
+            }
+        }
+        
+        @media screen and (max-width: 320px) {
+            .heart {
+                height: 45px;
+                width: 45px;
+            }
+            
+            .heart:before,
+            .heart:after {
+                height: 45px;
+                width: 45px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .music-controls {
+                position: relative;
+                bottom: 0;
+                right: 0;
+                margin-top: 30px;
+            }
+            
+            .music-note {
+                position: relative;
+                left: 0;
+                bottom: 0;
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo estrellado -->
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="heart-container">
+            <div class="heart" id="heart"></div>
+        </div>
+        
+        <h1>Me Encantas</h1>
+        
+        <div class="message">
+Gracias por tus palabras tan lindas, me hacen tan bien, ahora yo quiero dedicarte las mias, porque cada vez que te veo siento que mis miradas duran un segundo mas, y espero tus mensajes con esa mezcla de ansiedad y alegria que me provocan.
+
+Tu sonrisa… tambien la espero.
+
+A veces releo los mensajes que me escribiste y entiendo algo hermoso, me calmas, me devolves claridad, me haces sentir que, aunque mis sentimientos esten revueltos, encuentran un lugar seguro en tus palabras.
+
+No se como vamos a terminar, pero si se que hoy, despues de todo, sos una de las personas que mas quiero que este bien y tengo la esperanza de seguir compartiendo momentos, charlas y esas miradas que ya no sabemos disimular.
+
+Te aprecio mas de lo que las palabras alcanzan a decir.
+        </div>
+        
+        <div class="music-note" id="musicNote">
+            ♫ Música: "I Wanna Be Yours" - Arctic Monkeys
+        </div>
+        
+        <div class="music-controls">
+            <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+            <button class="music-btn" id="playPauseBtn">▶️</button>
+            <button class="music-btn" id="muteBtn">🔊</button>
+        </div>
+    </div>
+    
+    <!-- Elemento de audio para la música -->
+    <!-- IMPORTANTE: Para que funcione con Google Drive, necesitas hacer que el archivo sea público -->
+    <!-- O usar este enlace alternativo si el de Drive no funciona -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <!-- Enlace directo desde Google Drive (debes hacer público el archivo primero) -->
+        <source src="https://d.uguu.se/DSDmiiRK.mp3" type="audio/mpeg">
+        
+        <!-- Enlace de respaldo por si el de Google Drive no funciona -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+    
+    <script>
+        // Elementos DOM
+        const heart = document.getElementById('heart');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const musicNote = document.getElementById('musicNote');
+        const starsContainer = document.getElementById('stars');
+        
+        // Configurar música
+        backgroundMusic.volume = volumeSlider.value / 100;
+        
+        // Crear estrellas en el fondo
+        function createStars() {
+            const starsCount = 100;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Posición aleatoria
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Retraso de animación aleatorio
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Inicializar estrellas
+        createStars();
+        
+        // Efecto interactivo del corazón
+        heart.addEventListener('click', function() {
+            this.style.animation = 'none';
+            this.style.transform = 'rotate(-45deg) scale(1.5)';
+            this.style.transition = 'transform 0.3s ease';
+            
+            setTimeout(() => {
+                this.style.animation = 'heart 0.6s linear infinite';
+                this.style.transform = 'rotate(-45deg)';
+                this.style.transition = 'none';
+            }, 300);
+            
+            // Crear corazones flotantes
+            for (let i = 0; i < 5; i++) {
+                createFloatingHeart();
+            }
+            
+            // Intentar reproducir música si no está reproduciéndose
+            // (en móviles, la reproducción automática está restringida)
+            if (backgroundMusic.paused) {
+                const playPromise = backgroundMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        // Reproducción iniciada exitosamente
+                        playPauseBtn.innerHTML = '⏸️';
+                        musicNote.style.opacity = '1';
+                    }).catch(error => {
+                        // Reproducción fallida, mostrar mensaje
+                        musicNote.innerHTML = '♫ Toca el corazón para iniciar la música';
+                        musicNote.style.color = '#f20044';
+                        console.log("Reproducción automática prevenida:", error);
+                    });
+                }
+            }
+        });
+        
+        // Crear corazones flotantes
+        function createFloatingHeart() {
+            const floatingHeart = document.createElement('div');
+            floatingHeart.classList.add('heart');
+            floatingHeart.style.position = 'absolute';
+            floatingHeart.style.top = '50%';
+            floatingHeart.style.left = '50%';
+            floatingHeart.style.width = '20px';
+            floatingHeart.style.height = '20px';
+            floatingHeart.style.zIndex = '1';
+            floatingHeart.style.animation = 'none';
+            floatingHeart.style.cursor = 'default';
+            
+            // Posición aleatoria
+            const randomX = Math.random() * 100 - 50;
+            const randomY = Math.random() * 100 - 50;
+            
+            floatingHeart.style.transform = `rotate(-45deg) translate(${randomX}px, ${randomY}px)`;
+            floatingHeart.style.opacity = '0.7';
+            
+            document.querySelector('.heart-container').appendChild(floatingHeart);
+            
+            // Animar y remover
+            setTimeout(() => {
+                floatingHeart.style.transition = 'transform 1.5s ease, opacity 1.5s ease';
+                floatingHeart.style.transform = `rotate(-45deg) translate(${randomX * 3}px, ${randomY * 3 - 150}px)`;
+                floatingHeart.style.opacity = '0';
+                
+                setTimeout(() => {
+                    if (floatingHeart.parentNode) {
+                        floatingHeart.parentNode.removeChild(floatingHeart);
+                    }
+                }, 1500);
+            }, 10);
+        }
+        
+        // Controlar reproducción de música
+        playPauseBtn.addEventListener('click', function() {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                this.innerHTML = '⏸️';
+            } else {
+                backgroundMusic.pause();
+                this.innerHTML = '▶️';
+            }
+        });
+        
+        // Controlar silencio
+        muteBtn.addEventListener('click', function() {
+            if (backgroundMusic.muted) {
+                backgroundMusic.muted = false;
+                this.innerHTML = '🔊';
+                this.classList.remove('muted');
+            } else {
+                backgroundMusic.muted = true;
+                this.innerHTML = '🔇';
+                this.classList.add('muted');
+            }
+        });
+        
+        // Controlar volumen
+        volumeSlider.addEventListener('input', function() {
+            backgroundMusic.volume = this.value / 100;
+            
+            // Actualizar icono de volumen según el nivel
+            if (this.value == 0) {
+                muteBtn.innerHTML = '🔇';
+                muteBtn.classList.add('muted');
+                backgroundMusic.muted = true;
+            } else {
+                muteBtn.innerHTML = '🔊';
+                muteBtn.classList.remove('muted');
+                backgroundMusic.muted = false;
+                
+                // Cambiar icono según nivel de volumen
+                if (this.value < 30) {
+                    muteBtn.innerHTML = '🔈';
+                } else if (this.value < 70) {
+                    muteBtn.innerHTML = '🔉';
+                } else {
+                    muteBtn.innerHTML = '🔊';
+                }
+            }
+        });
+        
+        // Intenta reproducir música automáticamente (puede que no funcione en algunos móviles)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Esperar un poco antes de intentar reproducir
+            setTimeout(() => {
+                const playPromise = backgroundMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        // Reproducción iniciada exitosamente
+                        playPauseBtn.innerHTML = '⏸️';
+                        musicNote.style.opacity = '1';
+                    }).catch(error => {
+                        // Reproducción fallida, esperar interacción del usuario
+                        musicNote.innerHTML = '♫ Toca el corazón para iniciar la música';
+                        musicNote.style.color = '#f20044';
+                        console.log("Reproducción automática prevenida:", error);
+                    });
+                }
+            }, 1000);
+        });
+        
+        // Asegurar renderizado correcto en dispositivos móviles
+        window.addEventListener('resize', function() {
+            document.body.style.display = 'none';
+            document.body.offsetHeight; // Forzar reflow
+            document.body.style.display = 'flex';
+        });
+        
+        // Mostrar mensaje de carga de música
+        backgroundMusic.addEventListener('canplaythrough', function() {
+            musicNote.innerHTML = '♫ Música cargada y lista';
+            setTimeout(() => {
+                musicNote.innerHTML = '♫ Música: "I Wanna Be Yours" - Arctic Monkeys';
+                musicNote.style.color = 'rgba(240, 248, 255, 0.7)';
+            }, 2000);
+        });
+        
+        // Manejar errores de carga de música
+        backgroundMusic.addEventListener('error', function() {
+            musicNote.innerHTML = '♫ No se pudo cargar la música. Asegúrate de que el archivo en Google Drive sea público.';
+            musicNote.style.color = '#ff9900';
+            
+            // Si hay error con Google Drive, intentar con el respaldo
+            setTimeout(() => {
+                if (backgroundMusic.error) {
+                    musicNote.innerHTML = '♫ Usando música alternativa';
+                    // Si el primer source falla, el navegador intentará automáticamente el segundo
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
